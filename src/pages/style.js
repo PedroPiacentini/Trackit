@@ -1,4 +1,23 @@
 import styled from "styled-components";
+import { ThreeDots } from 'react-loader-spinner'
+
+const Loading = () => {
+    return (
+        <ThreeDots
+            height="13"
+            width="51"
+            radius="9"
+            color="#FFFFFF"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+        />
+    )
+
+}
+
+
 
 const LoginScreen = styled.div`
     display:flex;
@@ -26,17 +45,22 @@ const LoginScreen = styled.div`
         border-radius: 5px;
     }
     input {
-        border: 1px solid #D4D4D4;  
+        border: 1px solid ${props => props.isLoading ? "#F2F2F2" : "#D4D4D4"};  
+        color: ${props => props.isLoading ? "#AFAFAF" : ""};  
         padding-left: 11px;
+        font-size: 20px;
     }
     input::placeholder {
-        font-size: 20px;
         color: #DBDBDB;
     }
     button {
         border: none;
-        background-color: #52B6FF;
-        padding-bottom: 4px;
+        background-color: #52B6FF;  
+        opacity: ${props => props.isLoading ? 0.7 : ""}; 
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
         font-size: 21px;
         color: #FFFFFF;
@@ -51,4 +75,4 @@ const LoginScreen = styled.div`
         color: #52B6FF;
     }
 `
-export default LoginScreen;
+export { LoginScreen, Loading };

@@ -1,4 +1,4 @@
-import LoginScreen from "./style";
+import { LoginScreen, Loading } from "./style";
 import logo from "../assets/logo.png";
 import { useState } from "react";
 import axios from "axios";
@@ -9,6 +9,7 @@ export default function Login() {
         email: "",
         password: ""
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     function handleLoginPost(e) {
 
@@ -16,20 +17,26 @@ export default function Login() {
             ...loginPost,
             [e.target.name]: e.target.value
         })
-        console.log(loginPost);
     }
 
     function sendLogin(e) {
 
         e.preventDefault();
+        setIsLoading(true);
 
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginPost)
-        request.then(a => console.log(a.value));
-        request.catch(a => console.log(a))
+        request.then(a => {
+            console.log(a.value);
+            setIsLoading(false);
+        });
+        request.catch(a => {
+            console.log(a)
+            setIsLoading(false);
+        })
     }
 
     return (
-        <LoginScreen>
+        <LoginScreen isLoading={isLoading}>
 
             <img src={logo} alt="Logo Trackit" />
 
@@ -41,7 +48,7 @@ export default function Login() {
                     onChange={handleLoginPost}
                     value={loginPost.email}
                     placeholder="email"
-
+                    disabled={isLoading}
                 />
 
                 <input
@@ -50,9 +57,16 @@ export default function Login() {
                     onChange={handleLoginPost}
                     value={loginPost.password}
                     placeholder="senha"
+                    disabled={isLoading}
                 />
 
-                <button type="submit">Entrar</button>
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                >
+                    {isLoading ? <Loading /> : "Entrar"}
+                </button>
+
 
             </form>
 
