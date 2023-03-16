@@ -2,10 +2,10 @@ import { LoginScreen, Loading } from "./style";
 import logo from "../../assets/logo.png";
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
-
+    const navigate = useNavigate();
     const [loginPost, setLoginPost] = useState({
         email: "",
         password: ""
@@ -27,11 +27,10 @@ export default function Login() {
 
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginPost)
         request.then(a => {
-            console.log(a.data);
             setIsLoading(false);
+            navigate("/hoje");
         });
         request.catch(a => {
-            console.log(a);
             setIsLoading(false);
             alert(a.response.data.message);
         })
