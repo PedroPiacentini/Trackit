@@ -26,12 +26,13 @@ export default function Login() {
 
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginPost)
         request.then(a => {
-            console.log(a.value);
+            console.log(a.data);
             setIsLoading(false);
         });
         request.catch(a => {
-            console.log(a)
+            console.log(a);
             setIsLoading(false);
+            alert(a.response.data.message);
         })
     }
 
