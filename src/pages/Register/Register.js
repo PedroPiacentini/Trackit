@@ -1,5 +1,5 @@
 import { LoginScreen, Loading } from "./style";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 import { useState } from "react";
 import axios from "axios";
 
@@ -7,7 +7,9 @@ export default function Login() {
 
     const [loginPost, setLoginPost] = useState({
         email: "",
-        password: ""
+        password: "",
+        name: "",
+        image: ""
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,7 +26,7 @@ export default function Login() {
         e.preventDefault();
         setIsLoading(true);
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginPost)
+        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", loginPost)
         request.then(a => {
             console.log(a.data);
             setIsLoading(false);
@@ -61,17 +63,35 @@ export default function Login() {
                     disabled={isLoading}
                 />
 
+                <input
+                    type="text"
+                    name="name"
+                    onChange={handleLoginPost}
+                    value={loginPost.name}
+                    placeholder="nome"
+                    disabled={isLoading}
+                />
+
+                <input
+                    type="url"
+                    name="image"
+                    onChange={handleLoginPost}
+                    value={loginPost.image}
+                    placeholder="foto"
+                    disabled={isLoading}
+                />
+
                 <button
                     type="submit"
                     disabled={isLoading}
                 >
-                    {isLoading ? <Loading /> : "Entrar"}
+                    {isLoading ? <Loading /> : "Cadastrar"}
                 </button>
 
 
             </form>
 
-            <p>Não tem uma conta? Cadastre-se!</p>
+            <p>Já tem uma conta? Faça login!</p>
 
         </LoginScreen>
     )
