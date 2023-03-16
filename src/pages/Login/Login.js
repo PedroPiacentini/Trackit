@@ -2,6 +2,7 @@ import { LoginScreen, Loading } from "./style";
 import logo from "../../assets/logo.png";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Login() {
 
@@ -70,9 +71,9 @@ export default function Login() {
 
 
             </form>
-
-            <p>Não tem uma conta? Cadastre-se!</p>
-
+            <Link to={"/cadastro"}>
+                <p>Não tem uma conta? Cadastre-se!</p>
+            </Link>
         </LoginScreen>
     )
 }

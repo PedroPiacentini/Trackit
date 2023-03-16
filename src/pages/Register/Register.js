@@ -2,6 +2,7 @@ import { LoginScreen, Loading } from "./style";
 import logo from "../../assets/logo.png";
 import { useState } from "react";
 import axios from "axios";
+import { Link, redirect } from "react-router-dom";
 
 export default function Login() {
 
@@ -28,11 +29,9 @@ export default function Login() {
 
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", loginPost)
         request.then(a => {
-            console.log(a.data);
             setIsLoading(false);
         });
         request.catch(a => {
-            console.log(a);
             setIsLoading(false);
             alert(a.response.data.message);
         })
@@ -91,7 +90,9 @@ export default function Login() {
 
             </form>
 
-            <p>Já tem uma conta? Faça login!</p>
+            <Link to={"/"}>
+                <p>Já tem uma conta? Faça login!</p>
+            </Link>
 
         </LoginScreen>
     )

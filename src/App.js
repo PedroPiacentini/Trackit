@@ -7,8 +7,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/cadastro" element={<Login />} />
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
