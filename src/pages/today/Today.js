@@ -7,7 +7,6 @@ import { useContext } from "react";
 
 export default function Today() {
     const user = useContext(Context)[0];
-    console.log(user);
 
     return (
         <TodayScreen>
