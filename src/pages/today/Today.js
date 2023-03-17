@@ -1,9 +1,14 @@
 import Footer from "../../components/Footer";
 import Head from "../../components/Head";
+import Context from "../../components/Context";
 
 import styled from "styled-components";
+import { useContext } from "react";
 
 export default function Today() {
+    const user = useContext(Context)[0];
+    console.log(user);
+
     return (
         <TodayScreen>
             <Head />

@@ -5,8 +5,12 @@ import {
     buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Context from "./Context";
+import { useContext } from "react";
 
 export default function Footer() {
+    const user = useContext(Context)[0];
+
     return (
         <FooterContainer>
             <p>Hábitos</p>

@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import logo from "../assets/logoTexto.png"
+import Context from "./Context";
+import { useContext } from "react";
 
 export default function Head() {
-    let fotofdp = "";
+    const image = useContext(Context)[0].image;
     return (
         <HeadContainer>
             <Logo src={logo} />
-            <User src={fotofdp} />
+            <User src={image} />
         </HeadContainer>
     )
 }
