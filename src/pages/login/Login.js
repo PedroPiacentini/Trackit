@@ -1,5 +1,5 @@
 import { LoginScreen, Loading } from "./style";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logoCompleto.png";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,9 +8,7 @@ export default function Login() {
     const navigate = useNavigate();
     const [loginPost, setLoginPost] = useState({
         email: "",
-        password: "",
-        name: "",
-        image: ""
+        password: ""
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,10 +25,10 @@ export default function Login() {
         e.preventDefault();
         setIsLoading(true);
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", loginPost)
+        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginPost)
         request.then(a => {
             setIsLoading(false);
-            navigate("/");
+            navigate("/hoje");
         });
         request.catch(a => {
             setIsLoading(false);
@@ -63,38 +61,18 @@ export default function Login() {
                     disabled={isLoading}
                 />
 
-                <input
-                    type="text"
-                    name="name"
-                    onChange={handleLoginPost}
-                    value={loginPost.name}
-                    placeholder="nome"
-                    disabled={isLoading}
-                />
-
-                <input
-                    type="url"
-                    name="image"
-                    onChange={handleLoginPost}
-                    value={loginPost.image}
-                    placeholder="foto"
-                    disabled={isLoading}
-                />
-
                 <button
                     type="submit"
                     disabled={isLoading}
                 >
-                    {isLoading ? <Loading /> : "Cadastrar"}
+                    {isLoading ? <Loading /> : "Entrar"}
                 </button>
 
 
             </form>
-
-            <Link to={"/"}>
-                <p>Já tem uma conta? Faça login!</p>
+            <Link to={"/cadastro"}>
+                <p>Não tem uma conta? Cadastre-se!</p>
             </Link>
-
         </LoginScreen>
     )
 }

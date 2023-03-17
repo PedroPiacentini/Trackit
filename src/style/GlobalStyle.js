@@ -7,7 +7,6 @@ const GlobalStyle = createGlobalStyle`
 	input, button, p {
 		font-family: 'Lexend Deca', sans-serif;
 	}
-	
 `
 
 export default GlobalStyle

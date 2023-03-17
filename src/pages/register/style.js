@@ -14,7 +14,6 @@ const Loading = () => {
             visible={true}
         />
     )
-
 }
 
 
