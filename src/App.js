@@ -15,6 +15,8 @@ export default function App() {
             <Route path="/" element={<Login />} />
             <Route path="/cadastro" element={<Register />} />
             <Route path="/hoje" element={<Today />} />
+            <Route path="/habitos" element={<Today />} />
+            <Route path="/historico" element={<Today />} />
           </Routes>
         </BrowserRouter>
       </Context.Provider>

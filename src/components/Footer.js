@@ -7,30 +7,34 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 import Context from "./Context";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
     const user = useContext(Context)[0];
 
     return (
+
         <FooterContainer>
-            <p>Hábitos</p>
+            <Link to={"/habitos"}><p>Hábitos</p></Link>
             <ProgressBar>
-                <span>
-                    <CircularProgressbar
-                        value={100}
-                        text={"Hoje"}
-                        background
-                        backgroundPadding={6}
-                        styles={buildStyles({
-                            backgroundColor: "#3e98c7",
-                            textColor: "#fff",
-                            pathColor: "#fff",
-                            trailColor: "transparent"
-                        })}
-                    />
-                </span>
+                <Link to={"/hoje"}>
+                    <span>
+                        <CircularProgressbar
+                            value={100}
+                            text={"Hoje"}
+                            background
+                            backgroundPadding={6}
+                            styles={buildStyles({
+                                backgroundColor: "#3e98c7",
+                                textColor: "#fff",
+                                pathColor: "#fff",
+                                trailColor: "transparent"
+                            })}
+                        />
+                    </span>
+                </Link>
             </ProgressBar>
-            <p>Histórico</p>
+            <Link to={"/historico"}><p>Histórico</p></Link>
 
         </FooterContainer >
     )
@@ -50,6 +54,9 @@ const FooterContainer = styled.div`
     align-items: center;
 
     padding: 0 36px;
+    a {
+        text-decoration: none;
+    }
 
     p {
     font-size: 18px;
@@ -68,6 +75,7 @@ const ProgressBar = styled.div`
 
     span {
         font-family: 'Lexend Deca', sans-serif;
+        
     }
 
 
