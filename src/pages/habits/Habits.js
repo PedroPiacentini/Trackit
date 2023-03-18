@@ -13,6 +13,7 @@ export default function Habits() {
     const user = useContext(Context)[0];
     const [habits, sethabits] = useState(null);
     const [openCreate, setOpenCreate] = useState(false);
+    const [selectedDays, setSelectedDays] = useState([]);
 
     const config = {
         headers: {
@@ -49,9 +50,30 @@ export default function Habits() {
                     <textarea placeholder="nome do hábito" />
                     <DaysContainer>
                         {
-                            days.map((day) => {
+                            days.map((day, i) => {
+                                let selected = false;
+                                selectedDays.map(selectedDay => {
+                                    if (i === selectedDay) {
+                                        selected = true;
+                                    }
+                                })
                                 return (
-                                    <Day><p>{day}</p></Day>
+                                    <Day
+                                        key={i}
+                                        onClick={() => {
+                                            if (selected) {
+                                                const index = selectedDays.indexOf(i);
+                                                const newSelectedDays = [...selectedDays];
+                                                newSelectedDays.splice(index, 1);
+                                                setSelectedDays(newSelectedDays);
+                                            } else {
+                                                setSelectedDays([...selectedDays, i])
+                                            }
+                                        }}
+                                        selected={selected}
+                                    >
+                                        <p>{day}</p>
+                                    </Day>
                                 );
                             })
                         }
@@ -110,7 +132,7 @@ export default function Habits() {
 
             <Footer />
 
-        </TodayScreen>
+        </TodayScreen >
     )
 }
 
