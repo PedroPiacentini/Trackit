@@ -15,6 +15,7 @@ export default function Head() {
 
 const HeadContainer = styled.div`
     position: fixed;
+    z-index: 1;
     top: 0px;
 
     height: 70px;

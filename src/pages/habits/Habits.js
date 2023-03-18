@@ -3,24 +3,33 @@ import Head from "../../components/Head";
 import Context from "../../components/Context";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import trash from "../../assets/lixo.png"
 
 import styled from "styled-components";
 import { useContext } from "react";
 
+
 export default function Habits() {
     const user = useContext(Context)[0];
-    const [habits, sethabits] = useState([]);
+    const [habits, sethabits] = useState(null);
     const config = {
         headers: {
             "Authorization": `Bearer ${user.token}`
         }
     }
     const days = ["D", "S", "T", "Q", "Q", "S", "S"]
-    useEffect(() => {
+
+    function listHabits() {
         axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
             .then(a => sethabits(a.data))
-            .catch(a => console.log(a.data))
-    }, [])
+            .catch(a => console.log(a.data));
+    }
+    function deleteHabit(habitId) {
+        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}`, config)
+            .then(listHabits)
+            .catch(a => console.log(a));
+    }
+    useEffect(listHabits, [])
     console.log(habits)
 
     return (
@@ -37,31 +46,42 @@ export default function Habits() {
 
             <HabitsContainer>
 
-                {habits.length === 0 ?
-                    <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-                    :
-                    habits.map(habit => {
-                        let j = 0;
-                        return (
-                            <div>
-                                <p>{habit.name}</p>
-                                <DaysContainer>
-                                    {
-                                        days.map((day, i) => {
-                                            let selected = false;
-                                            if (i === habit.days[j]) {
-                                                selected = true;
-                                                j++
-                                            }
-                                            return (
-                                                <Day selected={selected}><p>{day}</p></Day>
-                                            );
-                                        })
-                                    }
-                                </DaysContainer>
-                            </div>
-                        );
-                    })
+                {habits === null ? <p>carregando...</p>
+                    : habits.length === 0 ?
+                        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                        :
+                        habits.map(habit => {
+                            let j = 0;
+                            return (
+                                <div>
+                                    <img
+                                        src={trash}
+                                        onClick={() => {
+                                            const isDelete = window.confirm("Tem certeza?");
+                                            isDelete ?
+                                                deleteHabit(habit.id)
+                                                :
+                                                console.log("não")
+                                        }}
+                                    />
+                                    <p>{habit.name}</p>
+                                    <DaysContainer>
+                                        {
+                                            days.map((day, i) => {
+                                                let selected = false;
+                                                if (i === habit.days[j]) {
+                                                    selected = true;
+                                                    j++
+                                                }
+                                                return (
+                                                    <Day selected={selected}><p>{day}</p></Day>
+                                                );
+                                            })
+                                        }
+                                    </DaysContainer>
+                                </div>
+                            );
+                        })
                 }
 
             </HabitsContainer>
@@ -109,6 +129,8 @@ const HabitsContainer = styled.div`
     color: #666666;
 
     >div {
+        position: relative;
+
         background-color: #FFFFFF;
         margin-bottom: 15px;
         border-radius: 5px;
@@ -122,6 +144,12 @@ const HabitsContainer = styled.div`
     >p{
         font-size: 17.976px;
         margin-top: 28px;
+    }
+
+    img {
+        position: absolute;
+        top: 11px;
+        right: 10px;
     }
 `
 
