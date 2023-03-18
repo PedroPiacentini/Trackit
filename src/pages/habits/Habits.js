@@ -12,6 +12,8 @@ import { useContext } from "react";
 export default function Habits() {
     const user = useContext(Context)[0];
     const [habits, sethabits] = useState(null);
+    const [openCreate, setOpenCreate] = useState(false);
+
     const config = {
         headers: {
             "Authorization": `Bearer ${user.token}`
@@ -29,6 +31,7 @@ export default function Habits() {
             .then(listHabits)
             .catch(a => console.log(a));
     }
+
     useEffect(listHabits, [])
     console.log(habits)
 
@@ -38,11 +41,30 @@ export default function Habits() {
             <Head />
 
             <TopMenu>
-
                 <p>Meus hábitos</p>
-                <button><span>+</span></button>
-
+                <button onClick={() => setOpenCreate(true)}><span>+</span></button>
             </TopMenu>
+            {openCreate ?
+                <CreateContainer>
+                    <textarea placeholder="nome do hábito" />
+                    <DaysContainer>
+                        {
+                            days.map((day) => {
+                                return (
+                                    <Day><p>{day}</p></Day>
+                                );
+                            })
+                        }
+                    </DaysContainer>
+                    <div>
+                        <p onClick={() => setOpenCreate(false)}>Cancelar</p>
+                        <button><span>Salvar</span></button>
+                    </div>
+                </CreateContainer>
+                :
+                <div></div>
+            }
+
 
             <HabitsContainer>
 
@@ -53,7 +75,7 @@ export default function Habits() {
                         habits.map(habit => {
                             let j = 0;
                             return (
-                                <div>
+                                <div key={habit.id}>
                                     <img
                                         src={trash}
                                         onClick={() => {
@@ -74,7 +96,7 @@ export default function Habits() {
                                                     j++
                                                 }
                                                 return (
-                                                    <Day selected={selected}><p>{day}</p></Day>
+                                                    <Day key={habit.id + i} selected={selected}><p>{day}</p></Day>
                                                 );
                                             })
                                         }
@@ -91,6 +113,74 @@ export default function Habits() {
         </TodayScreen>
     )
 }
+
+const DaysContainer = styled.div`
+    width: 234px;
+
+    height: 30px;
+
+    display: flex;
+    justify-content: space-between; 
+`
+const CreateContainer = styled.div`
+    width: 340px;
+    min-height: 180px;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: #FFFFFF;
+
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    textarea {
+        resize: none;
+
+        width: 303px;
+        height: 45px;
+        margin-bottom: 8px;
+        margin-top: 3px;
+
+        border: 1px solid #D5D5D5;
+        border-radius: 5px;
+
+        font-size: 20px;
+        line-height: 25px;  
+        padding-top: 9px;
+        padding-left: 11px;
+
+        color: #666666;
+
+        ::placeholder {
+            font-size: 20px;
+            line-height: 25px;
+            color: #DBDBDB;
+        }
+    }
+    >:nth-child(3){
+        margin-top: 30px;
+        margin-left: 135px;
+        width: 176px;
+        height: 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p, button{
+            font-size: 16px;
+            line-height: 20px;
+            text-align: center;
+            color:#52B6FF;
+        }
+        button {
+            border: none;
+            width: 84px;
+            height: 35px;
+            border-radius: 4.6px;
+            background-color: #52B6FF;
+            color: #FFFFFF;
+        }
+    }
+`
 
 const Day = styled.div`
     width: 30px;
@@ -109,15 +199,6 @@ const Day = styled.div`
     font-size: 20px;
     color: ${props => props.selected ? "#FFFFFF" : "#DBDBDB"};
 `
-const DaysContainer = styled.div`
-    width: 234px;
-
-    height: 30px;
-
-    display: flex;
-    justify-content: space-between; 
-`
-
 const HabitsContainer = styled.div`
     width: 340px;
     margin-top: 20px;
@@ -152,7 +233,6 @@ const HabitsContainer = styled.div`
         right: 10px;
     }
 `
-
 const TopMenu = styled.div`
     width: 100%;
     height: 34px;
@@ -187,7 +267,6 @@ const TopMenu = styled.div`
         color: #FFFFFF;
     }
 `
-
 const TodayScreen = styled.div`
     display: flex;
     flex-direction: column;

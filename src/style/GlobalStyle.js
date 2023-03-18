@@ -4,7 +4,7 @@ const GlobalStyle = createGlobalStyle`
 	*{
 		box-sizing: border-box;
 	}
-	input, button, p {
+	input, button, p, textarea {
 		font-family: 'Lexend Deca', sans-serif;
 	}
 `
