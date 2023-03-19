@@ -4,6 +4,7 @@ import Context from "../../components/Context";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import trash from "../../assets/lixo.png"
+import { Loading } from "./style";
 
 import styled from "styled-components";
 import { useContext } from "react";
@@ -17,6 +18,7 @@ export default function Habits() {
         name: "",
         days: []
     })
+    const [isLoading, setIsLoading] = useState(false);
 
     function handleNewHabit(e) {
         setNewHabit({
@@ -29,6 +31,7 @@ export default function Habits() {
         })
     }
     function sendHabit() {
+        setIsLoading(true);
         const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", newHabit, config)
         request.then(a => {
             listHabits();
@@ -37,9 +40,11 @@ export default function Habits() {
                 days: []
             });
             setOpenCreate(false);
+            setIsLoading(false);
         });
         request.catch(a => {
-            console.log(a)
+            alert(a.response.data.message)
+            setIsLoading(false);
         })
     }
 
@@ -75,10 +80,11 @@ export default function Habits() {
                 <button onClick={() => setOpenCreate(true)}><span>+</span></button>
             </TopMenu>
             {openCreate ?
-                <CreateContainer>
+                <CreateContainer isLoading={isLoading}>
                     <textarea
                         onChange={handleNewHabit}
                         value={newHabit.name}
+                        disabled={isLoading}
                         placeholder="nome do hábito"
                         name="name"
                     />
@@ -96,6 +102,7 @@ export default function Habits() {
                                     <Day
                                         key={i}
                                         onClick={() => {
+                                            if (isLoading) return;
                                             if (selected) {
                                                 const index = selectedDays.indexOf(i);
                                                 const newSelectedDays = [...selectedDays];
@@ -111,21 +118,26 @@ export default function Habits() {
                                                 });
                                             }
                                         }}
+                                        disabled={isLoading}
                                         selected={selected}
                                     >
-                                        <p>{day}</p>
+                                        <p disabled={isLoading}>{day}</p>
                                     </Day>
                                 );
                             })
                         }
                     </DaysContainer>
                     <div>
-                        <p onClick={() => setOpenCreate(false)}>Cancelar</p>
-                        <button onClick={sendHabit}><span>Salvar</span></button>
+                        <p onClick={() => {
+                            if (isLoading) return;
+                            setOpenCreate(false)
+                        }}
+                        >Cancelar</p>
+                        <button disabled={isLoading} onClick={sendHabit}><span>{isLoading ? <Loading /> : "salvar"}</span></button>
                     </div>
                 </CreateContainer>
                 :
-                <div></div>
+                ""
             }
 
 
@@ -202,6 +214,7 @@ const CreateContainer = styled.div`
         height: 45px;
         margin-bottom: 8px;
         margin-top: 3px;
+        background-color: ${props => props.isLoading ? "#F2F2F2" : "#FFFFFF"};
 
         border: 1px solid #D5D5D5;
         border-radius: 5px;
@@ -211,7 +224,7 @@ const CreateContainer = styled.div`
         padding-top: 9px;
         padding-left: 11px;
 
-        color: #666666;
+        color: ${props => props.isLoading ? "#B3B3B3" : "#666666"};
 
         ::placeholder {
             font-size: 20px;
@@ -227,11 +240,15 @@ const CreateContainer = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+        opacity: ${props => props.isLoading ? 0.7 : ""};
 
         p, button{
             font-size: 16px;
             line-height: 20px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color:#52B6FF;
         }
         button {
