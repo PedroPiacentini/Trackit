@@ -25,10 +25,6 @@ export default function Habits() {
             ...newHabit,
             [e.target.name]: e.target.value
         })
-        console.log({
-            ...newHabit,
-            [e.target.name]: e.target.value
-        })
     }
     function sendHabit() {
         setIsLoading(true);
@@ -68,10 +64,9 @@ export default function Habits() {
     }
 
     useEffect(listHabits, [])
-    console.log(habits)
 
     return (
-        <TodayScreen>
+        <HabtisScreen>
 
             <Head />
 
@@ -157,7 +152,7 @@ export default function Habits() {
                                             isDelete ?
                                                 deleteHabit(habit.id)
                                                 :
-                                                console.log("não")
+                                                console.log("")
                                         }}
                                     />
                                     <p>{habit.name}</p>
@@ -185,7 +180,7 @@ export default function Habits() {
 
             <Footer />
 
-        </TodayScreen >
+        </HabtisScreen >
     )
 }
 
@@ -347,7 +342,7 @@ const TopMenu = styled.div`
         color: #FFFFFF;
     }
 `
-const TodayScreen = styled.div`
+const HabtisScreen = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
