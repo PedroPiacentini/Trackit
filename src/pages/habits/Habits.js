@@ -13,7 +13,36 @@ export default function Habits() {
     const user = useContext(Context)[0];
     const [habits, sethabits] = useState(null);
     const [openCreate, setOpenCreate] = useState(false);
-    const [selectedDays, setSelectedDays] = useState([]);
+    const [newHabit, setNewHabit] = useState({
+        name: "",
+        days: []
+    })
+
+    function handleNewHabit(e) {
+        setNewHabit({
+            ...newHabit,
+            [e.target.name]: e.target.value
+        })
+        console.log({
+            ...newHabit,
+            [e.target.name]: e.target.value
+        })
+    }
+    function sendHabit() {
+        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", newHabit, config)
+        request.then(a => {
+            listHabits();
+            setNewHabit({
+                name: "",
+                days: []
+            });
+            setOpenCreate(false);
+        });
+        request.catch(a => {
+            console.log(a)
+        })
+    }
+
 
     const config = {
         headers: {
@@ -47,10 +76,16 @@ export default function Habits() {
             </TopMenu>
             {openCreate ?
                 <CreateContainer>
-                    <textarea placeholder="nome do hábito" />
+                    <textarea
+                        onChange={handleNewHabit}
+                        value={newHabit.name}
+                        placeholder="nome do hábito"
+                        name="name"
+                    />
                     <DaysContainer>
                         {
                             days.map((day, i) => {
+                                const selectedDays = newHabit.days
                                 let selected = false;
                                 selectedDays.map(selectedDay => {
                                     if (i === selectedDay) {
@@ -65,9 +100,15 @@ export default function Habits() {
                                                 const index = selectedDays.indexOf(i);
                                                 const newSelectedDays = [...selectedDays];
                                                 newSelectedDays.splice(index, 1);
-                                                setSelectedDays(newSelectedDays);
+                                                setNewHabit({
+                                                    ...newHabit,
+                                                    days: newSelectedDays
+                                                });
                                             } else {
-                                                setSelectedDays([...selectedDays, i])
+                                                setNewHabit({
+                                                    ...newHabit,
+                                                    days: [...selectedDays, i]
+                                                });
                                             }
                                         }}
                                         selected={selected}
@@ -80,7 +121,7 @@ export default function Habits() {
                     </DaysContainer>
                     <div>
                         <p onClick={() => setOpenCreate(false)}>Cancelar</p>
-                        <button><span>Salvar</span></button>
+                        <button onClick={sendHabit}><span>Salvar</span></button>
                     </div>
                 </CreateContainer>
                 :
@@ -95,7 +136,6 @@ export default function Habits() {
                         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                         :
                         habits.map(habit => {
-                            let j = 0;
                             return (
                                 <div key={habit.id}>
                                     <img
@@ -113,10 +153,11 @@ export default function Habits() {
                                         {
                                             days.map((day, i) => {
                                                 let selected = false;
-                                                if (i === habit.days[j]) {
-                                                    selected = true;
-                                                    j++
-                                                }
+                                                habit.days.map(day => {
+                                                    if (i === day) {
+                                                        selected = true;
+                                                    }
+                                                })
                                                 return (
                                                     <Day key={habit.id + i} selected={selected}><p>{day}</p></Day>
                                                 );
