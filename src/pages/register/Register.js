@@ -46,6 +46,7 @@ export default function Login() {
             <form onSubmit={sendLogin}>
 
                 <input
+                    data-test="email-input"
                     type="email"
                     name="email"
                     onChange={handleLoginPost}
@@ -55,6 +56,7 @@ export default function Login() {
                 />
 
                 <input
+                    data-test="password-input"
                     type="password"
                     name="password"
                     onChange={handleLoginPost}
@@ -64,6 +66,7 @@ export default function Login() {
                 />
 
                 <input
+                    data-test="user-name-input"
                     type="text"
                     name="name"
                     onChange={handleLoginPost}
@@ -73,6 +76,7 @@ export default function Login() {
                 />
 
                 <input
+                    data-test="user-image-input"
                     type="url"
                     name="image"
                     onChange={handleLoginPost}
@@ -82,6 +86,7 @@ export default function Login() {
                 />
 
                 <button
+                    data-test="signup-btn"
                     type="submit"
                     disabled={isLoading}
                 >
@@ -91,7 +96,7 @@ export default function Login() {
 
             </form>
 
-            <Link to={"/"}>
+            <Link data-test="login-link" to={"/"}>
                 <p>Já tem uma conta? Faça login!</p>
             </Link>
 

@@ -47,6 +47,7 @@ export default function Login() {
             <form onSubmit={sendLogin}>
 
                 <input
+                    data-test="email-imput"
                     type="email"
                     name="email"
                     onChange={handleLoginPost}
@@ -56,6 +57,7 @@ export default function Login() {
                 />
 
                 <input
+                    data-test="password-input"
                     type="password"
                     name="password"
                     onChange={handleLoginPost}
@@ -65,6 +67,7 @@ export default function Login() {
                 />
 
                 <button
+                    data-test="login-btn"
                     type="submit"
                     disabled={isLoading}
                 >
@@ -73,7 +76,7 @@ export default function Login() {
 
 
             </form>
-            <Link to={"/cadastro"}>
+            <Link data-test="signup-link" to={"/cadastro"}>
                 <p>Não tem uma conta? Cadastre-se!</p>
             </Link>
         </LoginScreen>

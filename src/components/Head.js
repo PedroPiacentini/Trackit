@@ -6,7 +6,7 @@ import { useContext } from "react";
 export default function Head() {
     const image = useContext(Context)[0].image;
     return (
-        <HeadContainer>
+        <HeadContainer data-test="header">
             <Logo src={logo} />
             <User src={image} />
         </HeadContainer>

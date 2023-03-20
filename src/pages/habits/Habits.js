@@ -72,11 +72,12 @@ export default function Habits() {
 
             <TopMenu>
                 <p>Meus hábitos</p>
-                <button onClick={() => setOpenCreate(true)}><span>+</span></button>
+                <button data-test="habit-create-btn" onClick={() => setOpenCreate(true)}><span>+</span></button>
             </TopMenu>
             {openCreate ?
-                <CreateContainer isLoading={isLoading}>
+                <CreateContainer data-test="habit-create-container" isLoading={isLoading}>
                     <textarea
+                        data-test="habit-name-input"
                         onChange={handleNewHabit}
                         value={newHabit.name}
                         disabled={isLoading}
@@ -95,6 +96,7 @@ export default function Habits() {
                                 })
                                 return (
                                     <Day
+                                        data-test="habit-day"
                                         key={i}
                                         onClick={() => {
                                             if (isLoading) return;
@@ -123,12 +125,12 @@ export default function Habits() {
                         }
                     </DaysContainer>
                     <div>
-                        <p onClick={() => {
+                        <p data-test="habit-create-cancel-btn" onClick={() => {
                             if (isLoading) return;
                             setOpenCreate(false)
                         }}
                         >Cancelar</p>
-                        <button disabled={isLoading} onClick={sendHabit}><span>{isLoading ? <Loading /> : "salvar"}</span></button>
+                        <button data-test="habit-create-save-btn" disabled={isLoading} onClick={sendHabit}><span>{isLoading ? <Loading /> : "salvar"}</span></button>
                     </div>
                 </CreateContainer>
                 :
@@ -144,8 +146,9 @@ export default function Habits() {
                         :
                         habits.map(habit => {
                             return (
-                                <div key={habit.id}>
+                                <div data-test="habit-container" key={habit.id}>
                                     <img
+                                        data-test="habit-delete-btn"
                                         src={trash}
                                         onClick={() => {
                                             const isDelete = window.confirm("Tem certeza?");
@@ -155,7 +158,7 @@ export default function Habits() {
                                                 console.log("")
                                         }}
                                     />
-                                    <p>{habit.name}</p>
+                                    <p data-test="habit-name">{habit.name}</p>
                                     <DaysContainer>
                                         {
                                             days.map((day, i) => {
@@ -166,7 +169,7 @@ export default function Habits() {
                                                     }
                                                 })
                                                 return (
-                                                    <Day key={habit.id + i} selected={selected}><p>{day}</p></Day>
+                                                    <Day data-test="habit-day" key={habit.id + i} selected={selected}><p>{day}</p></Day>
                                                 );
                                             })
                                         }

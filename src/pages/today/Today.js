@@ -59,30 +59,32 @@ export default function Today() {
     return (
         <TodayScreen>
             <Head />
-            <h1>{`${weekDay}, ${day}/${month}`}</h1>
-            <h2>{
+            <h1 data-test="today">{`${weekDay}, ${day}/${month}`}</h1>
+            <h2 data-test="today-counter">{
                 completeHabits === 0 ?
                     "Nenhum hábito concluido ainda" :
                     `${Math.floor(completeHabits)}% dos hábitos concluidos`
             }</h2>
             {habits === null ? "" :
                 habits.map(habit => {
-                    const inRecord = habit.currentSequence === habit.highestSequence
+                    const inRecord = habit.currentSequence === habit.highestSequence && habit.highestSequence !== 0
                     return (
-                        <HabitContainer key={habit.id} done={habit.done} >
+                        <HabitContainer data-test="today-habit-container" key={habit.id} done={habit.done} >
                             <HabitText done={habit.done} inRecord={inRecord}>
-                                <h1>{habit.name}</h1>
+                                <h1 data-test="today-habit-name">{habit.name}</h1>
                                 <div>
-                                    <h2>Sequência: <span>{habit.currentSequence} dias</span></h2>
-                                    <h2>Seu recorde: <span>{habit.highestSequence} dias</span></h2>
+                                    <h2 data-test="today-habit-sequence">Sequência: <span>{habit.currentSequence} dias</span></h2>
+                                    <h2 data-test="today-habit-record">Seu recorde: <span>{habit.highestSequence} dias</span></h2>
                                 </div>
                             </HabitText>
-                            <button onClick={() => {
-                                habit.done ?
-                                    unTrack(habit.id) :
-                                    track(habit.id)
-                            }
-                            }><img src={check} /></button>
+                            <button
+                                data-test="today-habit-check-btn"
+                                onClick={() => {
+                                    habit.done ?
+                                        unTrack(habit.id) :
+                                        track(habit.id)
+                                }
+                                }><img src={check} /></button>
                         </HabitContainer>
                     )
                 })}
